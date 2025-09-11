@@ -1,0 +1,72 @@
+\section{Vision-language tasks and variants}
+
+\begin{frame}{Vision-language tasks and variants}
+\begin{block}
+
+Early VLMs focus on image-level visual recognition tasks, whereas recent VLMs are more general-purpose, which can also work for dense prediction tasks that are complex and require localization related knowledge.
+\end{block}
+\end{frame}
+
+\begin{frame}{Table 1: Core Vision Tasks}
+\begin{table}[h!]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Task Type}             & \textbf{Description}                                                & \textbf{Strong VLM Models}                       \\ \hline
+\textbf{Image Classification}  & Predicts a label for the whole image (e.g., bear, dog, car...)     & \textbf{CLIP}, \textbf{BLIP}, \textbf{ALIGN}, \textbf{Florence} \\ \hline
+\textbf{Object Detection}      & Detects multiple objects with bounding boxes                        & \textbf{Grounding DINO}, \textbf{OWL-ViT}, \textbf{GLIP}         \\ \hline
+\textbf{Semantic Segmentation} & Labels each pixel by class (not separating instances)               & \textbf{CLIPSeg}, \textbf{LSeg}                                 \\ \hline
+\textbf{Instance Segmentation} & Labels and distinguishes each object instance individually          & \textbf{SAM}, \textbf{SEEM}, \textbf{GRIT}                      \\ \hline
+\end{tabular}%
+}
+\end{table}
+\end{frame}
+
+\begin{frame}{Table 2: Advanced Multimodal Tasks}
+\begin{table}[H]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Task Type} & \textbf{Description} & \textbf{Strong VLM Models} \\
+\hline
+Image Captioning & Generates a text description for the image & \textbf{BLIP}, \textbf{BLIP-2}, \textbf{GIT}, \textbf{MiniGPT-4} \\
+\hline
+Visual Question Answering (VQA) & Answers questions based on the image content & \textbf{BLIP-2}, \textbf{Flamingo}, \textbf{MiniGPT-4}, \textbf{LLaVA} \\
+\hline
+Visual Grounding & Locates regions in the image based on a textual description & \textbf{Grounding DINO}, \textbf{OWL-ViT}, \textbf{GLIP} \\
+\hline
+Text-to-Image Retrieval & Finds matching images from a text query (or vice versa) & \textbf{CLIP}, \textbf{ALIGN}, \textbf{Florence} \\
+\hline
+Multimodal Reasoning & Performs reasoning using both image and language modalities & \textbf{GPT-4V}, \textbf{Kosmos-2}, \textbf{MiniGPT-4}, \textbf{LLaVA} \\
+\hline
+\end{tabular}%
+}
+\end{table}
+\end{frame}
+
+
+\begin{frame}{VLMs on vision tasks}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/benchmarking_on_classif_tasks_clip.png}
+    \caption{ ResNet-101 fine-tuned on ImageNet vs. zero-shot CLIP}
+\end{figure}
+\end{frame}
+
+\begin{frame}{VLMs on vision tasks}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/CLIPSeg.png}
+    \caption{Basic processing systems apply CLIPSeg for Object Segmentation tasks}
+\end{figure}
+\end{frame}
+
+\begin{frame}{VLMs on vision tasks}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/Screenshot 2025-07-20 101518.png}
+    \caption{CLIP in object detection and localization}
+\end{figure}
+\end{frame}

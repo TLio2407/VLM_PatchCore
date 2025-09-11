@@ -1,0 +1,104 @@
+\begin{frame}{Future Research Directions}
+\begin{block}{Multilingual VLMs}
+\begin{itemize}
+    \item Most current VLMs are trained in English, limiting access for non-English speakers.
+
+    \item\textbf{Challenges:}
+    \begin{itemize}
+      \item Lack of high-quality multilingual vision-language datasets
+      \item Tokenization issues (e.g., BPE, WordPiece) optimized for English
+      \item Fragmentation of common words in non-English scripts
+      \item Loss of semantics and struggles with languages like Thai or Japanese
+    \end{itemize}
+
+    \item \textbf{Real-World Need:}Image-based learning, customer service, and healthcare in multilingual regions.
+\end{itemize}
+
+\end{block}
+\end{frame}
+
+\begin{frame}{Future Research Directions}
+\begin{block}{Robotics + Instruction Following}
+\begin{itemize}
+    \item Robots need to understand natural language commands and interact in visual environments (e.g., “pick up the red cup”).
+    
+    \item \textbf{Real-World Need:}
+    \begin{itemize}
+        \item Autonomous systems that see, understand, and respond to humans naturally
+        \item Ability to process independently in real situation using visual input from environment
+    \end{itemize}
+\end{itemize}
+\end{block}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.35\linewidth]{images/robot.jpg}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Future Research Directions}
+\begin{block}{Efficient Inference on Edge/Mobile Devices}
+\begin{itemize}
+    \item \textbf{Why it matters:}Many VLMs are too large and compute-intensive for deployment on phones, AR glasses, or IoT devices.
+
+    \item\textbf{Challenges:}
+    \begin{itemize}
+      \item High memory, compute, and energy usage
+      \item Real-time latency constraints
+    \end{itemize}
+
+    \item\textbf{Solutions:}
+    \begin{itemize}
+      \item Model quantization, distillation, hardware-specific optimization
+      \item Lightweight architectures (e.g., MobileViT, MobileSAM)
+    \end{itemize}
+
+    \item \textbf{Use Cases:}AR assistants, mobile translators, smart wearables, offline captioning tools.
+
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Future Research Directions}
+\begin{block}{Bias Mitigation and Dataset Fairness}
+\begin{itemize}
+    \item \textbf{Why it matters:}VLMs trained on web-scale data often inherit social, gender, and cultural biases.
+
+    \item\textbf{Risks:}
+        \begin{itemize}
+          \item Stereotyping, exclusion, misinformation
+          \item Negative impact in education, hiring, or healthcare
+        \end{itemize}
+
+    \item \textbf{Approaches:}
+    \begin{itemize}
+      \item Curated datasets with diverse representation
+      \item Post-hoc debiasing techniques and fairness audits
+    \end{itemize}
+
+    \item \textbf{Goal:}
+Ensure VLMs are ethical, inclusive, and fair.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Future Research Directions}
+\begin{block}{Model Transparency and Explainability}
+\begin{itemize}
+    \item\textbf{Why it matters:}Users and developers need to trust and understand model decisions.
+
+    \item\textbf{Challenges:}
+    \begin{itemize}
+      \item Transformer models are complex and act like black boxes
+      \item Hard to trace how visual cues influence outputs
+    \end{itemize}
+
+    \item \textbf{Research Directions:}
+    \begin{itemize}
+      \item Attention maps, saliency heatmaps, token attribution
+      \item Explanation-by-example, interactive debugging tools
+    \end{itemize}
+    
+    \item \textbf{Real-World Need:}Healthcare, law, education—where decisions must be justified.
+\end{itemize}
+\end{block}
+\end{frame}
