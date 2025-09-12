@@ -9,7 +9,7 @@ from PIL import Image
 from sklearn.metrics import roc_curve, roc_auc_score
 import matplotlib.pyplot as plt
 import numpy as np
-from model import PatchCoreCLIP
+from model import PatchCoreDINOv2
 from datetime import datetime
 
 _DATASET_URL = {
@@ -58,18 +58,18 @@ class MVTecTestDataset(Dataset):
 # Main run loop
 # -----------------------------
 objects = [
-    "bottle","cable","capsule","carpet","grid","hazelnut",
+    "bottle","cable","capsule","carpet","grid",
     "leather","metal_nut","pill","screw","tile","toothbrush",
     "transistor","wood","zipper"
 ]
-
+one_obj = ["zipper"]
 output_dir = "results_heatmaps"
 os.makedirs(output_dir, exist_ok=True)
 
 directory = r"/content/mvtec_anomaly_detection"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-for obj in objects:
+for obj in one_obj:
     start_time = datetime.now()
     dataset_path = os.path.join(directory, obj)
 
@@ -91,8 +91,8 @@ for obj in objects:
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
-        transforms.Normalize(mean=(0.48145466, 0.4578275, 0.40821073),
-                             std=(0.26862954, 0.26130258, 0.27577711)),
+        transforms.Normalize(mean=(0.485, 0.456, 0.406),
+                            std=(0.229, 0.224, 0.225))
     ])
 
     train_dataset = datasets.ImageFolder(
@@ -107,8 +107,7 @@ for obj in objects:
     train_loader = DataLoader(train_dataset, batch_size=16, shuffle=False, num_workers=2)
     test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False, num_workers=2)
 
-    model = PatchCoreCLIP(device=device, max_memory=100_000, proj_dim=128)
-
+    model = PatchCoreDINOv2(device=device, backbone="dinov2_vits14", max_memory=100_000, proj_dim=128)
     # Full memory bank
     model.fit(train_loader, f_coreset=1.0)
     scores = model.predict(test_loader, alpha=0.7)

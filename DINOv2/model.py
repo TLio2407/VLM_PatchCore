@@ -1,64 +1,68 @@
 import torch
 import numpy as np
 import torch.nn as nn
-import open_clip
+import torch.nn.functional as F
+import torchvision.models as models
 from sklearn.random_projection import SparseRandomProjection
 
 
-class PatchCoreCLIP(nn.Module):
+class PatchCoreDINOv2(nn.Module):
     """
-    PatchCore-style anomaly detector using CLIP ViT as backbone.
-
-    Upgrades vs original:
-      • Extracts LOCALLY-AWARE features (patch tokens) from CLIP ViT.
-      • Extracts GLOBAL features (pooled CLIP embedding).
-      • Maintains two memory banks: local and global.
-      • Supports PatchCore-style coreset subsampling.
-      • Final score combines local + global (weighted fusion).
+    PatchCore-style anomaly detector using DINOv2 ViT backbone.
+    Extracts patch-level tokens (local) + CLS token (global).
     """
 
-    def __init__(self, device: str = "cuda", max_memory: int = 100_000, proj_dim: int = 128, seed: int = 0):
+    def __init__(self, device: str = "cuda", backbone: str = "dinov2_vits14",
+                 max_memory: int = 100_000, proj_dim: int = 128, seed: int = 0):
         super().__init__()
         self.device = device
         self.max_memory = int(max_memory)
         self.proj_dim = int(proj_dim)
         self.rng = np.random.default_rng(seed)
 
-        # Load CLIP backbone (ViT-B/32 pretrained on LAION2B)
-        self.model, _, self.preprocess = open_clip.create_model_and_transforms(
-            model_name="ViT-B-32", pretrained="laion2b_s34b_b79k"
-        )
-        self.model.to(self.device).eval()
+        # Load pretrained DINOv2 backbone
+        if backbone.startswith("dinov2"):
+            # Load via torch.hub
+            self.model = torch.hub.load("facebookresearch/dinov2", backbone, pretrained=True)
+        else:
+            # fallback to torchvision or your other backbones
+            self.model = models.get_model(backbone, pretrained=True)        
+        self.model.to(device).eval()
 
         # Hook storage for patch tokens
         self._cached_tokens = None
 
         def save_patch_tokens(module, input, output):
+            # output: [B, N, D] (CLS + patches)
             self._cached_tokens = output.detach()
 
-        self.model.visual.transformer.resblocks[-1].register_forward_hook(save_patch_tokens)
+        # register hook on last block
+        self.model.blocks[-1].register_forward_hook(save_patch_tokens)
 
         # Memory banks
         self.memory_bank_local = None
         self.memory_bank_global = None
 
     # -----------------------------
-    # Feature extraction helpers
+    # Feature extraction
     # -----------------------------
     def _extract_patch_tokens(self, x: torch.Tensor) -> torch.Tensor:
         with torch.no_grad():
-            _ = self.model.encode_image(x)
+            _ = self.model(x)
             if self._cached_tokens is None:
-                raise RuntimeError("Hook did not capture patch tokens. Check model internals.")
+                raise RuntimeError("Hook did not capture patch tokens.")
             patches = self._cached_tokens[:, 1:, :]  # drop CLS
             patches = patches / (patches.norm(dim=-1, keepdim=True) + 1e-12)
         return patches
 
     def _extract_global(self, x: torch.Tensor) -> torch.Tensor:
         with torch.no_grad():
-            feats = self.model.encode_image(x)
-            feats = feats / feats.norm(dim=-1, keepdim=True)
-        return feats.cpu()
+            _ = self.model(x)
+            if self._cached_tokens is None:
+                raise RuntimeError("Hook did not capture patch tokens.")
+            cls_token = self._cached_tokens[:, 0, :]  # CLS embedding
+            cls_token = cls_token / (cls_token.norm(dim=-1, keepdim=True) + 1e-12)
+        return cls_token.cpu()
 
     def _batch_collect_patches(self, dataloader) -> torch.Tensor:
         all_feats = []
@@ -118,10 +122,10 @@ class PatchCoreCLIP(nn.Module):
 
         if target_n < N:
             mb_local = self._coreset_select(feats, target_n)
-            print(f"✅ Local memory bank reduced to {len(mb_local)} patches (from {N}) via coreset.")
+            print(f"Local memory bank reduced to {len(mb_local)} patches (from {N}) via coreset.")
         else:
             mb_local = feats
-            print(f"✅ Local memory bank built with {len(mb_local)} patches.")
+            print(f"Local memory bank built with {len(mb_local)} patches.")
 
         self.memory_bank_local = mb_local.contiguous()
 
@@ -133,7 +137,7 @@ class PatchCoreCLIP(nn.Module):
                 g = self._extract_global(x)
                 global_feats.append(g)
         self.memory_bank_global = torch.cat(global_feats, dim=0)
-        print(f"✅ Global memory bank built with {len(self.memory_bank_global)} embeddings.")
+        print(f"Global memory bank built with {len(self.memory_bank_global)} embeddings.")
 
     def predict(self, dataloader, alpha: float = 0.7):
         if self.memory_bank_local is None or self.memory_bank_global is None:
@@ -147,7 +151,6 @@ class PatchCoreCLIP(nn.Module):
             for (x, _) in dataloader:
                 x = x.to(self.device, non_blocking=True)
 
-                # Local score
                 patches = self._extract_patch_tokens(x)
                 B, P, D = patches.shape
                 patches = patches.cpu()
@@ -176,12 +179,10 @@ class PatchCoreCLIP(nn.Module):
         with torch.no_grad():
             x = image.unsqueeze(0).to(self.device)
 
-            # local
             patches = self._extract_patch_tokens(x)[0].cpu()
             dists_local = torch.cdist(patches, self.memory_bank_local)
             local_score = torch.max(torch.min(dists_local, dim=1)[0]).item()
 
-            # global
             g = self._extract_global(x)
             gdist = torch.cdist(g, self.memory_bank_global).min().item()
 
