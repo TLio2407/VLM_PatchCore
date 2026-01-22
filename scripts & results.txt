@@ -1,0 +1,153 @@
+!git clone https://github.com/facebookresearch/dinov3
+!pip3 install -r req.txt
+!python3 run.py
+!python3 evaluate_experiment.py --anomaly_maps_dir anomaly_maps_eval --dataset_base_dir /content/mvtec_anomaly_detection --output_dir results/metrics
+
+=== Evaluate bottle ===
+Parsed 83 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 83/83 [00:01<00:00, 45.64it/s]
+Compute PRO curve...
+Sort 67230000 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.9199640918117268
+Image-level classification AU-ROC: 0.7373015873015873
+
+
+=== Evaluate cable ===
+Parsed 150 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 150/150 [00:03<00:00, 42.76it/s]
+Compute PRO curve...
+Sort 157286400 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.8168777831147956
+Image-level classification AU-ROC: 0.6691341829085456
+
+
+=== Evaluate capsule ===
+Parsed 132 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 132/132 [00:03<00:00, 43.93it/s]
+Compute PRO curve...
+Sort 132000000 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.9282020155603636
+Image-level classification AU-ROC: 0.5249301954527323
+
+
+=== Evaluate carpet ===
+Parsed 117 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 117/117 [00:02<00:00, 42.43it/s]
+Compute PRO curve...
+Sort 122683392 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.9491118026493532
+Image-level classification AU-ROC: 0.544943820224719
+
+
+=== Evaluate grid ===
+Parsed 78 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 78/78 [00:01<00:00, 42.31it/s]
+Compute PRO curve...
+Sort 81788928 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.9451601394683162
+Image-level classification AU-ROC: 0.37009189640768586
+
+
+=== Evaluate hazelnut ===
+Parsed 110 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 110/110 [00:02<00:00, 44.92it/s]
+Compute PRO curve...
+Sort 115343360 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.8743791169705664
+Image-level classification AU-ROC: 0.5371428571428571
+
+
+=== Evaluate leather ===
+Parsed 124 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 124/124 [00:03<00:00, 39.64it/s]
+Compute PRO curve...
+Sort 130023424 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.976225183957671
+Image-level classification AU-ROC: 0.5866168478260869
+
+
+=== Evaluate metal_nut ===
+Parsed 115 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 115/115 [00:01<00:00, 75.53it/s]
+Compute PRO curve...
+Sort 56350000 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.8518748190661124
+Image-level classification AU-ROC: 0.4327956989247312
+
+
+=== Evaluate pill ===
+Parsed 167 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 167/167 [00:02<00:00, 66.95it/s]
+Compute PRO curve...
+Sort 106880000 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.9009981999705025
+Image-level classification AU-ROC: 0.4924986361156574
+
+
+=== Evaluate screw ===
+Parsed 160 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 160/160 [00:03<00:00, 41.64it/s]
+Compute PRO curve...
+Sort 167772160 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.7299744303734034
+Image-level classification AU-ROC: 0.4131994261119082
+
+
+=== Evaluate tile ===
+Parsed 117 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 117/117 [00:01<00:00, 60.59it/s]
+Compute PRO curve...
+Sort 82555200 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.875470772513559
+Image-level classification AU-ROC: 0.8080808080808081
+
+
+=== Evaluate toothbrush ===
+Parsed 42 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 42/42 [00:01<00:00, 37.49it/s]
+Compute PRO curve...
+Sort 44040192 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.8121126690721296
+Image-level classification AU-ROC: 0.42500000000000004
+
+
+=== Evaluate transistor ===
+Parsed 100 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 100/100 [00:02<00:00, 43.59it/s]
+Compute PRO curve...
+Sort 104857600 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.6760375030677851
+Image-level classification AU-ROC: 0.5804166666666667
+
+
+=== Evaluate wood ===
+Parsed 79 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 79/79 [00:01<00:00, 43.40it/s]
+Compute PRO curve...
+Sort 82837504 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.8395345349199396
+Image-level classification AU-ROC: 0.4140350877192983
+
+
+=== Evaluate zipper ===
+Parsed 151 ground truth image files.
+Read ground truth files and corresponding predictions...
+100% 151/151 [00:03<00:00, 44.35it/s]
+Compute PRO curve...
+Sort 158334976 anomaly scores...
+AU-PRO (FPR limit: 0.3): 0.7030944679767517
+Image-level classification AU-ROC: 0.525735294117647
