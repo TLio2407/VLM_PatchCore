@@ -1,0 +1,119 @@
+\begin{frame}{What is SOTA?}
+\begin{block}{\textbf{SOTA = State of the Art} }
+\begin{itemize}
+    \item Refers to the best-performing model/method for a specific task.
+    \item Achieves top results on benchmarks (e.g., VQA, captioning).
+    \item Represents cutting-edge R\&D in AI.
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{SOTA Models by Objectives}
+    \large{\textbf{VLMs' Tasks from Basic to Advanced}}
+    \begin{itemize}
+        \item \large{Core Vision Tasks (Basic Visual Recognition)}
+        \item \large{Vision-Language Alignment (Zero-shot Learning)}
+        \item \large{Captioning \& OCR (Image Description and Reading)}
+        \item \large{Visual Question Answering (Vision-Language Reasoning)}
+        \item \large{Instruction Following \& Visual Dialogue (Advanced Multimodal Interaction)}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{SOTA Models for Core Vision Tasks}
+\begin{center}
+\begin{tabular}{@{}p{0cm}p{0.3cm}p{0.3cm}@{}}
+\toprule
+\textbf{Task} & \textbf{Description} & \textbf{SOTA Models} \\
+\midrule
+Image Classification & Assign a label to an image & ViT(Google, 2020)\\
+\midrule
+Object Detection & Detect and classify objects in an image & YOLOv8, DETR\\
+\midrule
+Image Segmentation & Segment specific objects or regions & SAM (Meta, 2023)\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\linewidth]{images/BVR.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}{SOTA Models for Vision-Language Alignment}
+\begin{center}
+\begin{tabular}{@{}p{0cm}p{0.3cm}p{0.3cm}@{}}
+\toprule
+\textbf{Task} & \textbf{Description} & \textbf{SOTA Models} \\
+\midrule
+Zero-Shot Classification & Classify images & CLIP (OpenAI, 2021)\\
+                            & without fine-tuning &     \\
+\midrule
+Multimodal Retrieval & Search for images &	CLIP, BLIP-2\\
+                    & based on text or vice versa   &   \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/zs.png}
+\end{figure}
+\end{frame}
+\begin{frame}{SOTA Models for Captioning \& OCR}
+\begin{center}
+\begin{tabular}{@{}p{0cm}p{0.3cm}p{0.3cm}@{}}
+\toprule
+\textbf{Task} & \textbf{Description} & \textbf{SOTA Models} \\
+\midrule
+Image Captioning & Generate textual descriptions for images & BLIP-2, Flamingo\\
+\midrule
+OCR + Grounding & Recognize text and ground it to visual objects & Kosmos-2, GPT-4o\\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/km2.jpg}
+\end{figure}
+\end{frame}
+\begin{frame}{SOTA Models for Visual Question Answering}
+\begin{center}
+\begin{tabular}{@{}p{0cm}p{0.3cm}p{0.3cm}@{}}
+\toprule
+\textbf{Task} & \textbf{Description} & \textbf{SOTA Models} \\
+\midrule
+VQA (Visual QA)	& Answer natural language	& Flamingo, BLIP-2\\
+                & questions about images    &                   \\
+\midrule
+Visual Reasoning (Few-shot)	& Logical reasoning on	& MiniGPT-4, GPT-4o\\
+                            & image-based questions &                   \\
+\bottomrule
+\end{tabular}
+\end{center}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.3\linewidth]{images/vqa.png}
+\end{figure}
+\end{frame}
+\begin{frame}{SOTA Models for Instruction Following \& Visual Dialogue}
+\begin{center}
+\begin{tabular}{@{}p{0cm}p{0.3cm}p{0.3cm}@{}}
+\toprule
+\textbf{Task} & \textbf{Description} & \textbf{SOTA Models} \\
+\midrule
+Visual Instruction Following & Perform tasks based on & GPT-4o, MiniGPT-4\\
+                            & visual input + commands   &                   \\
+\midrule
+Multimodal Chat/Agents & Real-time interaction  & GPT-4o, Gemini 1.5\\
+    & with images + text + audio &      \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+\begin{frame}{SOTA Models for Instruction Following \& Visual Dialogue}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{images/vi_di.png}
+    \caption{Multimodal Chat/Agents}
+\end{figure}
+\end{frame}

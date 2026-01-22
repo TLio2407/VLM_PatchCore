@@ -1,0 +1,330 @@
+% Frame 6 - VLM Pre-training Frameworks
+\begin{frame}{VLM Pre-training Frameworks}
+\textbf{Three curent approached frameworks:}
+\begin{itemize}
+    \item Two-Tower VLM
+    \item Two-Leg VLM
+    \item One-Tower VLM
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/VLM_Frameworks.png}
+    \caption{three current architectures of VLM}
+\end{figure}
+\end{frame}
+
+\begin{frame}{CNN-based Architectures for Image Features}
+
+\textbf{CNN-based Architectures:}
+\begin{itemize}
+    \item Different ConvNets such as VGG, ResNet, and EfficientNet have been widely used for learning image features.
+    \item These models rely on convolutional layers to capture spatial hierarchies in images.
+\end{itemize}
+
+\vspace{0.4cm}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\linewidth]{images/CONvNet.png}
+    \caption{Convolutional architecture}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Transformer-based Architectures for Image Features}
+
+\textbf{Vision Transformer (ViT):}
+\begin{itemize}
+    \item ViT applies Transformer blocks to image patches instead of word tokens.
+    \item Each block includes multi-head self-attention and a feed-forward network.
+    \item ViT has shown competitive or superior performance compared to CNNs on many visual tasks.
+\end{itemize}
+
+\vspace{0.4cm}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.35\linewidth]{images/VT_image.png}
+    \caption{Vision transformer architecture}
+\end{figure}
+
+\end{frame}
+
+
+
+% Frame 2 - Network Architectures (Text)
+\begin{frame}{Learning Language Features}
+\textbf{Transformer-based Architectures for Language:}
+\begin{itemize}
+    \item Transformer and its variants are widely used to learn text representations.
+\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.3\linewidth]{images/VT_language.png}
+    \caption{Vision transformer architecture}
+\end{figure}
+\end{frame}
+
+\begin{frame}{VLM Pre-training Objectives }
+\textbf{VLM Pre-training Objectives}
+As the core of VLM, various vision language pre-training objectives have been designed to learn a rich vision-language correlation. 
+
+\vspace{1em}
+
+\textbf{Three types of contrastive learning:}
+\begin{itemize}
+    \item Contrastive objectives
+    \item Generative objectives
+    \item Alignment objectives
+\end{itemize}
+\end{frame}
+
+
+
+% Frame 3 - VLM Pre-training Objectives (1)
+\begin{frame}{Contrastive Objectives }
+\textbf{Contrastive Objectives:}
+Learn discriminative representations by pulling paired samples close and pushing others away.
+
+\vspace{1em}
+
+\textbf{Three types of contrastive learning:}
+\begin{itemize}
+    \item Image Contrastive Learning
+    \item Image-Text Contrastive Learning
+    \item Image-Text-Label Contrastive Learning
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Image Contrastive Learning}
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black]
+    Given a batch of $B$ images, image contrastive learning (e.g., InfoNCE) aims to bring positive pairs $(z_i^I, z_i^{I+})$ close and push negative keys $z_j^I, j \neq i$ away.
+\end{tcolorbox}
+
+\vspace{0.5em}
+
+\begin{block}{Loss Formulation}
+\footnotesize
+\[
+\mathcal{L}_{I}^{\text{InfoNCE}} = -\frac{1}{B} \sum_{i=1}^{B} \log \frac{\exp(z_i^I \cdot z_{i+}^I / \tau)}{\sum_{j=1, j \neq i}^{B+1} \exp(z_i^I \cdot z_j^I / \tau)}
+\]
+\end{block}
+
+\vspace{0.5em}
+
+\end{frame}
+
+
+
+\begin{frame}{Image-text Contrastive Learnings}
+\begin{minipage}[t]{0.5\textwidth}
+    \includegraphics[width=\linewidth,valign=t]{images/image-text-constrastive-learning.png}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+    \begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black]
+        pulling the embeddings of paired images and texts close while pushing others 
+    \end{tcolorbox}
+    
+    \vspace{0.5em}
+    
+    \begin{block}{Loss Formulation}
+    \footnotesize
+    \[
+    \mathcal{L}_{I \rightarrow T} = -\frac{1}{B} \sum_{i=1}^{B} \log \frac{\exp \left( z_i^I \cdot z_i^T / \tau \right)}{\sum_{j=1}^{B} \exp \left( z_i^I \cdot z_j^T / \tau \right)}
+    \]
+    \[
+    \mathcal{L}_{T \rightarrow I} = -\frac{1}{B} \sum_{i=1}^{B} \log \frac{\exp \left( z_i^T \cdot z_i^I / \tau \right)}{\sum_{j=1}^{B} \exp \left( z_i^T \cdot z_j^I / \tau \right)}
+    \]
+    \end{block}
+\end{minipage}
+\end{frame}
+
+\begin{frame}{Image-Text-Label Contrastive Learning}
+\begin{minipage}[t]{0.5\textwidth}
+    \includegraphics[width=\linewidth,valign=t]{images/img-text-label-constrastive.png}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+    \begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black]
+        Introduces supervised contrastive learning into image-text contrastive learning by grouping samples with the same label as positives.
+    \end{tcolorbox}
+
+    \vspace{0.5em}
+    
+    \begin{block}{Loss Formulation}
+    \footnotesize
+    \[
+    \mathcal{L}_{I \rightarrow T}^{\text{ITL}} = -\sum_{i=1}^{B} \frac{1}{|\mathcal{P}(i)|} \sum_{k \in \mathcal{P}(i)} \log \frac{\exp(z_i^I \cdot z_k^T / \tau)}{\sum_{j=1}^{B} \exp(z_i^I \cdot z_j^T / \tau)}
+    \]
+    \[
+    \mathcal{L}_{T \rightarrow I}^{\text{ITL}} = -\sum_{i=1}^{B} \frac{1}{|\mathcal{P}(i)|} \sum_{k \in \mathcal{P}(i)} \log \frac{\exp(z_i^T \cdot z_k^I / \tau)}{\sum_{j=1}^{B} \exp(z_i^T \cdot z_j^I / \tau)}
+    \]
+    \end{block}
+\end{minipage}
+\end{frame}
+
+
+
+\begin{frame}{Masked Image Modeling - Generative}
+\begin{minipage}[t]{0.5\textwidth}
+    \includegraphics[width=\linewidth,valign=t]{images/masked-image-modelling.png}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+    \begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black]
+        Randomly masks a subset of image patches and trains the model to reconstruct them from the unmasked patches.
+    \end{tcolorbox}
+
+    \vspace{0.5em}
+
+    \begin{block}{Loss Formulation}
+    \footnotesize
+    \[
+    \mathcal{L}_{\text{MIM}} = -\frac{1}{B} \sum_{i=1}^{B} \log f_\theta(x_i^I \mid \hat{x}_i^I)
+    \]
+    \end{block}
+    \footnotesize{where $x_i^I$ is the masked patch set and $\hat{x}_i^I$ is the unmasked patch set of image $x_i^I$.}
+\end{minipage}
+\end{frame}
+
+\begin{frame}{Masked Language Modeling - Generative}
+\begin{minipage}[t]{0.5\textwidth}
+    \includegraphics[width=\linewidth,valign=t]{images/mask-language-modelling.png}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+    \begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black]
+        Randomly masks a subset of text tokens and reconstructs them based on the unmasked tokens.
+    \end{tcolorbox}
+
+    \vspace{0.5em}
+
+    \begin{block}{Loss Formulation}
+    \footnotesize
+    \[
+    \mathcal{L}_{\text{MLM}} = -\frac{1}{B} \sum_{i=1}^{B} \log f_\phi(x_i^T \mid \hat{x}_i^T)
+    \]
+    \end{block}
+    \footnotesize{where $x_i^T$ is the masked token set and $\hat{x}_i^T$ is the unmasked set.}
+\end{minipage}
+\end{frame}
+
+\begin{frame}{Masked Cross-Modal Modeling - Generative}
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black]
+    Combines MIM and MLM by jointly masking both image patches and text tokens, and reconstructing them conditioned on the unmasked parts.
+\end{tcolorbox}
+
+\vspace{0.5em}
+
+\begin{block}{Loss Formulation}
+\footnotesize
+\[
+\mathcal{L}_{\text{MCM}} = -\frac{1}{B} \sum_{i=1}^{B} \left[ \log f_\theta(x_i^I \mid \hat{x}_i^I, \hat{x}_i^T) + \log f_\phi(x_i^T \mid \hat{x}_i^I, \hat{x}_i^T) \right]
+\]
+\end{block}
+
+\footnotesize{where $x_i^I$, $\hat{x}_i^I$ are masked/unmasked image patches and $x_i^T$, $\hat{x}_i^T$ are masked/unmasked tokens.}
+\end{frame}
+
+\begin{frame}{Image-Text Matching - Alignment}
+\begin{minipage}[t]{0.5\textwidth}
+    \includegraphics[width=\linewidth,valign=t]{images/word-region-alignment.png}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+    \begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black]
+    Models global correlation between images and texts using a binary classification loss over the alignment score.
+    \end{tcolorbox}
+
+    \vspace{0.5em}
+
+    \begin{block}{Loss Formulation}
+    \footnotesize
+    \[
+    \mathcal{L}_{IT} = p \log S(z^I, z^T) + (1 - p) \log(1 - S(z^I, z^T))
+    \]
+    \end{block}
+\end{minipage}
+\end{frame}
+
+\begin{frame}{Region-Word Matching - Alignment}
+\begin{tcolorbox}[colback=blue!5!white, colframe=blue!75!black]
+Models local cross-modal correlation between image regions and words for dense visual recognition tasks such as object detection.
+\end{tcolorbox}
+
+\vspace{0.5em}
+
+\begin{block}{Loss Formulation}
+\footnotesize
+\[
+\mathcal{L}_{RW} = p \log S_r(r^I, w^T) + (1 - p) \log(1 - S_r(r^I, w^T))
+\]
+\end{block}
+\end{frame}
+
+
+\begin{frame}{Transfer Learning}
+\textbf{Motivation:}
+\begin{itemize}
+    \item \textbf{Distribution gap:} Downstream tasks may differ in image styles and text formats.
+    \item \textbf{Objective gap:} VLMs are trained with general objectives, while downstream tasks require task-specific objectives (e.g., classification, detection).
+\end{itemize}
+
+\vspace{0.8em}
+
+\textbf{Transfer Techniques:}
+\begin{itemize}
+    \item \textbf{Prompt Tuning:} Modifies input text/image with learnable prompts. Includes:
+    \begin{itemize}
+        \item Text Prompt Tuning (e.g., CoOp, CoCoOp, DualCoOp, PLOT)
+        \item Visual Prompt Tuning (e.g., VP, RePrompt)
+        \item Text-Visual Prompt Tuning (e.g., UPT, MAPLE)
+    \end{itemize}
+    
+    \item \textbf{Feature Adapter:} Adds lightweight trainable layers after VLM encoders (e.g., CLIP-Adapter, Tip-Adapter, SVL-Adapter)
+    
+    \item \textbf{Other Methods:} 
+    \begin{itemize}
+        \item Direct Fine-tuning (e.g., Wise-FT)
+        \item Architecture Modification (e.g., MaskCLIP)
+        \item Cross-modal Attention (e.g., VT-CLIP, CALIP)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Knowledge Distillation }
+\textbf{Motivation:}
+\begin{itemize}
+    \item \textbf{Architecture Flexibility:} Distill VLM knowledge into task-specific models without retaining the VLM structure.
+    \item \textbf{Representation Gap:} VLMs offer image-level features, while downstream tasks need region/pixel-level understanding.
+\end{itemize}
+
+\vspace{0.8em}
+
+\textbf{For Object Detection:}
+\begin{itemize}
+    \item \textbf{Embedding Alignment:} Align detector and VLM features (e.g., ViLD, HierKD, RKD)
+    \item \textbf{Prompt-based Distillation:} Learn detection-specific prompts (e.g., DetPro, PromptDet)
+    \item \textbf{Pseudo-label Supervision:} Use VLM-generated pseudo boxes/masks (e.g., PB-OVD, XPM, P3OVD)
+    \item \textbf{Region Bag Distillation:} Aggregate multiple region embeddings (e.g., BARON, RO-ViT)
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Knowledge Distillation }
+\textbf{For Semantic Segmentation:}
+\begin{itemize}
+    \item \textbf{Two-stage Pipeline:} Segment-then-classify approach (e.g., ZegFormer, ZSSeg)
+    \item \textbf{Direct Pixel-level Distillation:} Match VLM with pixel-wise features (e.g., CLIPSeg, LSeg, MaskCLIP+)
+    \item \textbf{Prompt/Descriptor Learning:} Enhance generalization beyond base classes (e.g., ZegCLIP, OVSeg)
+    \item \textbf{Weak Supervision with VLM:} Refine CAMs using CLIP (e.g., CLIP-ES, CLIMS)
+\end{itemize}
+
+\vspace{0.8em}
+
+\textbf{Goal:} Transfer general VLM knowledge to dense prediction tasks while enabling open-vocabulary capability.
+\end{frame}
+

@@ -1,0 +1,82 @@
+\begin{frame}{ Real-World Products Using VLMs}
+\begin{center}
+\begin{tabular}{@{}p{0cm}p{0cm}p{0cm}@{}}
+\toprule
+\textbf{Product} & \textbf{Use Case} & \textbf{Backed by} \\
+\midrule
+ChatGPT Vision & VQA, OCR, diagram understanding & OpenAI \\
+\midrule
+Gemini Pro & Video understanding + logic & Google DeepMind \\
+\midrule
+Claude 3 & Charts, tables, multimodal dialogue & Anthropic \\
+\midrule
+Perplexity AI & Visual search and info retrieval & VLM Hybrid (CLIP + BLIP) \\
+\midrule
+Adobe Firefly & Prompt-based image generation & Adobe \\
+\midrule
+Google Lens & Product \& object recognition & ViT + CLIP \\
+\midrule
+MidJourney & AI art and concept generation & Diffusion + vision guidance \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{frame}
+
+\begin{frame}{Real-World Products Using VLMs}
+\begin{center}
+\vspace{0.1\textheight}
+\centering{\Huge \usefont{T1}{phv}{b}{n} CORE VLM COMPONENTS}
+\end{center}
+\end{frame}
+
+\begin{frame}{Core VLM Components}
+\begin{block}{OCR}
+\begin{itemize}
+    \item Optical Character Recognition
+    \item A technology that enables machines to read and extract text from images or scanned documents.
+    \item Use in VLMs: Allows models to understand and process text inside images, such as signs, forms, or screenshots.
+    \item Used in Kosmos-2 and ChatGPT Vision to read charts, menus, or handwritten notes.
+\end{itemize}
+\end{block}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.35\linewidth]{images/OCR.jpg}
+    \caption{Optical Character Recognition}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Core VLM Components}
+\begin{block}{ViT}
+\begin{itemize}
+    \item ViT stands for Vision Transformer — a model architecture introduced by Google Research in 2020 that applies the transformer architecture (originally designed for NLP) directly to image data. 
+    \item Outperforms CNNs on many vision tasks and is used in many modern VLMs as the image encoder.
+    \item Forms the backbone of models like CLIP, DINOv2, and Google Lens.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Core VLM Components}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/ViT.png}
+    \caption{Vision Transformer (ViT) Architecture}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Core VLM Components}
+\begin{block}{Diffusion Models}
+    \begin{itemize}
+        \item A class of generative models that create images from noise by learning how to reverse a “blurring” process step-by-step.
+        \item Use in VLMs: Powers text-to-image generation tools by combining language understanding with image synthesis
+        \item Used in DALL-E 2, Adobe Firefly, and MidJourney for prompt-based image creation.
+    \end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Core VLM Components}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.65\linewidth]{images/DM.png}
+    \caption{Stable Diffusion Progress}
+\end{figure}
+\end{frame}
